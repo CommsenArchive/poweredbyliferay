@@ -3,6 +3,6 @@
   "name": "Java Services",
  	"type": "wedeploy/java",
 	"hooks": {
-    	"build": "mvn clean install -DskipTests"
+    	"build_off": "mvn clean install -DskipTests"
   }
 }
