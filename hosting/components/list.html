@@ -23,7 +23,7 @@
                 <th>Liferay version</th>
                 <th>Languages</th>
               </tr>
-              <template is="dom-repeat" items="{{sitesJson}}">
+              <template is="dom-repeat" items="{{sitesJson}}" initial-count=10>
                 <tr>
                   <td>
                     <a href="#check/{{stripProtocol(item.originalURI)}}">
@@ -34,7 +34,7 @@
                     <a href="{{item.originalURI}}" target="_blank">{{item.originalURI}}</a>
                     <br/>
                     <small>(actual location: <a href="{{item.redirectURI}}" target="_blank">{{item.redirectURI}})</a></small></td>
-                  <td>{{item.liferayInfo.detectedBuildNumbers}}</td>
+                  <td>{{friendlyVersion(item.liferayInfo.detectedBuildNumbers.0)}}</td>
                   <td>
                       <language-flags
                         main="{{item.liferayInfo.primaryLanguage}}"
@@ -74,6 +74,9 @@
           },
           stripProtocol: function(url) {
             return url.replace(/.*?:\/\//g, "");
+          },
+          friendlyVersion: function(buildVersion) {
+              return buildVersion ? buildVersion.charAt(0) + "." + buildVersion.charAt(1) : "N/A"
           }
         })
     </script>
