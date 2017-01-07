@@ -19,7 +19,8 @@
 -runblacklist:\
 	osgi.identity;filter:='(osgi.identity=org.osgi.compendium)'
 
-#-runproperties.eqnx: 				\
+-runproperties: 				\
+	org.ops4j.pax.logging.DefaultServiceLog.level=INFO
 #	org.osgi.service.http.port=8181
 
 	
