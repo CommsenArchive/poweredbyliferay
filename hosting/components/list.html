@@ -66,9 +66,7 @@
           },
           ready: function() {
             listTemplate = this;
-            console.log(this.localName + '#' + this.id + ' has local DOM initialized');
             data.where('builtWithLiferay', '=', "true").get('sites').then(function(sites) {
-              console.log("Loaded:" + sites);
               listTemplate.sitesJson = sites;
             });
           },

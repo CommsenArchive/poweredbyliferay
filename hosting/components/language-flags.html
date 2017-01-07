@@ -32,7 +32,6 @@
                 }
             },
             languageFlag: function(code) {
-                console.log(code);
                 if (code == null) return code;
                 if (this._uniqLangs.has(code)) return null;
                 this._uniqLangs.add(code);
@@ -41,7 +40,6 @@
                 langCode = langCode.toUpperCase()
                 var firstLetter = langCode.codePointAt(0) - 0x41 + 0x1F1E6;
                 var secondLetter = langCode.codePointAt(1) - 0x41 + 0x1F1E6;
-                console.log(String.fromCodePoint(firstLetter) + String.fromCodePoint(secondLetter));
                 return String.fromCodePoint(firstLetter) + String.fromCodePoint(secondLetter);
             },
         })
