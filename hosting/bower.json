@@ -1,0 +1,36 @@
+{
+  "name": "hosting",
+  "authors": [
+    "Milen Dyankov <milendyankov@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "app-layout": "PolymerElements/app-layout#^0.10.6",
+    "app-route": "PolymerElements/app-route#^0.9.3",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^1.2.0",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.8",
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
+    "paper-card": "PolymerElements/paper-card#^1.1.4",
+    "paper-input": "PolymerElements/paper-input#^1.0.0",
+    "paper-tabs": "PolymerElements/paper-tabs#^1.7.0",
+    "iron-data-table": "^1.0.6",
+    "polymer-bootstrap": "^0.1.2",
+    "paper-tooltip": "PolymerElements/paper-tooltip#^1.1.3",
+    "paper-badge": "PolymerElements/paper-badge#^1.1.4",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.6",
+    "paper-item": "PolymerElements/paper-item#^1.2.1",
+    "paper-listbox": "PolymerElements/paper-listbox#^1.1.2"
+  }
+}

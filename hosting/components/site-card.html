@@ -1,0 +1,248 @@
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs-icons.html">
+<link rel="import" href="../bower_components/polymer-bootstrap/polymer-bootstrap.html">
+
+<link rel="import" href="../components/language-flags.html">
+
+<dom-module id="site-card">
+
+    <template>
+      <style include="polymer-bootstrap"></style>
+      <style>
+
+        paper-card {
+          --paper-card: {
+            width: 100%;
+            margin: 0 auto;
+          }
+        }
+
+        paper-card#site-card {
+            --paper-card-header-image: {
+              height:200px;
+            }
+            --paper-card-header-image-text: {
+              background-color: black;
+              opacity: 0.85;
+              width: 100%;
+              color: white;
+            }
+        }
+
+        :host {
+
+          --paper-badge: {
+            width: 50px;
+            height: 50px;
+            background-color: var(--paper-light-blue-300);
+            font-weight: bold;
+            font-size: 1.1em;
+          }
+
+
+          --paper-tabs-selection-bar-color: var(--paper-blue-700);
+
+
+        }
+
+        table {
+          font-size: small;
+        }
+
+        #outer {
+          width: 100%;
+          margin: 10px;
+        }
+
+        #inner {
+          padding: 10px;
+          width: 850px;
+          margin: 0 auto;
+        }
+
+        #alert {
+          font-size: .8em;
+          font-weight: bold;
+          text-align: center;
+          padding: 2px;
+        }
+
+        #alert.not-liferay {
+          background-color: var(--paper-orange-700);
+          color: var(--paper-orange-100);
+        }
+
+        #alert.liferay {
+          background-color: var(--paper-blue-300);
+          color: white;
+        }
+
+        @media (max-width: 850px) {
+            #inner {
+              width: 95%;
+            }
+        }
+
+      </style>
+
+      <div id="outer" style="width:100%">
+        <div id="inner">
+
+          <template is="dom-if" if="{{domain}}">
+
+            <iron-ajax
+                auto
+                url="{{serviceUrl}}"
+                handle-as="json"
+                last-response="{{ajaxResponse}}"
+                last-error="{{ajaxError}}"
+                loading="{{loading}}"
+                debounce-duration="300"></iron-ajax>
+
+            <template is="dom-if"  if="{{loading}}">
+               <paper-card id="loading" image="../WebContent/loading.gif" >
+                 <div class="card-content">
+                   {{domain}}
+                 </div>
+               </paper-card>
+            </template>
+
+            <template is="dom-if"  if="{{ajaxError}}">
+               Somethig went wrong
+            </template>
+
+            <template is="dom-if" if="{{!loading}}">
+
+              <paper-card
+                id="site-card"
+                placeholder-image="../WebContent/no-preview.png"
+                preload-image
+                image="http://api.webthumbnail.org/?width=800&height=200&url=http://{{domain}}"
+                heading="{{ajaxResponse.title}}">
+
+                <template is="dom-if" if="{{ajaxResponse.builtWithLiferay}}">
+                  <paper-badge for="site-card" label="{{badgeVersion}}"></paper-badge>
+                  <div id="alert" class="liferay">
+                    This site apears to be powered by Liferay!
+                  </div>
+                </template>
+
+                <template is="dom-if" if="{{!ajaxResponse.builtWithLiferay}}">
+                  <div id="alert" class="not-liferay">
+                    This site is probably not powered by Liferay!
+                  </div>
+                </template>
+
+
+                <paper-tabs selected="{{selectedTab}}">
+                  <paper-tab>Site information</paper-tab>
+                  <template restamp="true" is="dom-if" if="{{ajaxResponse.builtWithLiferay}}">
+                    <paper-tab disabled="{{!ajaxResponse.builtWithLiferay}}">Portlets</paper-tab>
+                  </template>
+                </paper-tabs>
+
+                <iron-pages selected="{{selectedTab}}">
+                  <div id="tab1" class="card-content">
+                    <table class="table table-sm">
+                      <tr>
+                        <th>URI</th>
+                        <td>{{ajaxResponse.originalURI}}</td>
+                      </tr>
+                      <tr>
+                        <th>Actual URI</th>
+                        <td>{{ajaxResponse.redirectURI}}</td>
+                      </tr>
+                      <tr>
+                        <th>Liferay version</th>
+                        <td>{{ajaxResponse.liferayInfo.vesrionFromHeader}}</td>
+                      </tr>
+                      <tr>
+                        <th>Liferay build</th>
+                        <td>{{ajaxResponse.liferayInfo.detectedBuildNumbers}}</td>
+                      </tr>
+                      <tr>
+                        <th>Main language</th>
+                        <td>
+                          <language-flags main="{{ajaxResponse.liferayInfo.primaryLanguage}}"></language-flags>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Suported languages</th>
+                        <td>
+                          <language-flags supported="{{ajaxResponse.liferayInfo.supportedLanguages}}"></language-flags>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <template restamp="true" is="dom-if" if="{{ajaxResponse.builtWithLiferay}}">
+                    <div id="tab2" class="card-content">
+                      <table class="table table-sm">
+                        <tr>
+                          <th>module/application</th>
+                          <th>portlet</th>
+                          <th>count</th>
+                        </tr>
+                        <template is="dom-repeat" items="{{ajaxResponse.liferayInfo.portlets}}">
+                          <tr>
+                            <td>{{displayName(item)}}</td>
+                            <td>{{item.portletName}}</td>
+                            <td>{{item.count}} </td>
+                          </tr>
+                        </template>
+                      </table>
+                    </div>
+                  </template>
+                </iron-pages>
+
+              </paper-card>
+            </template>
+
+          </template>
+
+        </div>
+      </div>
+
+    </template>
+
+    <script>
+        const DOMAIN = window.location.hostname.split(".").slice(-3).join(".");
+        const SERVICE = 'http://services.' + DOMAIN + '/services/check/';
+
+        Polymer({
+            is: 'site-card',
+            properties: {
+                domain: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                serviceUrl: {
+                    type: String,
+                    computed: 'calcUrl(domain)'
+                },
+                badgeVersion: {
+                  type: String,
+                  computed: 'calcVersion(ajaxResponse)'
+                },
+                selectedTab: {
+                    value: 0
+                }
+            },
+            calcUrl: function(domain) {
+                return SERVICE + encodeURIComponent(domain);
+            },
+            calcVersion: function(ajaxResponse) {
+                buildVersion = ajaxResponse.liferayInfo.detectedBuildNumbers[0];
+                return buildVersion ? buildVersion.charAt(0) + "." + buildVersion.charAt(1) : "N/A"
+            },
+            displayName: function(item) {
+              return item.moduleName ? item.moduleName : "LIFERAY OOTB PORTLET";
+            }
+
+        })
+    </script>
+</dom-module>

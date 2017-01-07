@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Powered by Liferay?</title>
+
+    <!-- app layout -->
+    <link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+    <link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+    <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+    <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+    <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+    <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+    <link rel="import" href="bower_components/app-route/app-location.html">
+    <link rel="import" href="bower_components/app-route/app-route.html">
+
+    <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <link rel="import" href="bower_components/iron-media-query/iron-media-query.html">
+
+    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
+    <link rel="import" href="components/menu.html">
+    <link rel="import" href="components/search-box.html">
+    <link rel="import" href="components/site-card.html">
+    <link rel="import" href="components/list.html">
+    <link rel="import" href="components/styles.html">
+
+    <style is="custom-style" include="main-styles"></style>
+
+    <style is="custom-style">
+      .flex-center-justified {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+    </style>
+</head>
+
+<body unresolved>
+  <template is="dom-bind">
+
+    <!-- Define difirent screen size variables -->
+    <iron-media-query query="(min-width: 600px)" query-matches="{{wideLayout}}"></iron-media-query>
+
+    <!-- Define routing -->
+    <app-location route="{{route}}" use-hash-as-path url-space-regex="^#"></app-location>
+
+    <app-route
+        route="{{route}}"
+        pattern=":page"
+        data="{{routeData}}"
+        ></app-route>
+
+    <app-route
+        route="{{route}}"
+        pattern="check/:param"
+        data="{{checkData}}"
+        ></app-route>
+    <!-- force-narrow prevents the drawer from ever being displayed
+         in persistent mode -->
+    <app-drawer-layout force-narrow>
+
+      <app-drawer id="drawer">
+          <site-menu>
+      </app-drawer>
+
+      <app-header-layout>
+          <app-header
+            condenses
+            fixed
+            effects="waterfall fade-background"
+            effects-config='{
+              "resize-snapped-title": {
+                  "startsAt": 0.8,
+                  "duration": "100ms"
+              }, "fade-background": {
+                  "startsAt": 0.8,
+                  "endsAt": 0.9
+              }
+          }'>
+              <app-toolbar>
+                <paper-icon-button
+                  class="menu-button"
+                  icon="menu"
+                  drawer-toggle></paper-icon-button>
+                  <h4 condensed-title>
+                    <iron-icon class="big" src="WebContent/liferay_logo.png"></iron-icon>
+                  </h4>
+              </app-toolbar>
+
+              <search-box domain="{{checkData.param}}"></search-box>
+
+          </app-header>
+
+          <iron-pages attr-for-selected="page-name" fallback-selection="check" selected="{{routeData.page}}">
+            <site-card page-name="check" domain="{{checkData.param}}"></site-card>
+            <site-list page-name="list"></site-list>
+          </iron-pages>
+
+
+      </app-header-layout>
+
+    </app-drawer-layout>
+
+  </template>
+
+
+</body>
+
+</html>

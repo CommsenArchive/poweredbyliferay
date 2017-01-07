@@ -1,0 +1,11 @@
+
+-augment.com.eclipsesource.jaxrs.publisher: \
+	com.eclipsesource.jaxrs.publisher; \
+		capability:=" osgi.contract; osgi.contract='JavaJAXRS'; version:Version='2';"; \
+		requirement:="osgi.contract; filter:='(&(osgi.contract=JavaJAXRS)(version=2))'"
+
+
+
+#		capability:=" osgi.contract; osgi.contract='JavaJAXRS'; version:Version='2'";\
+#		requirement:="osgi.contract;filter:='(osgi.contract=JavaJAXRS;version=2)'"
+		

@@ -1,0 +1,115 @@
+<!-- link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html" -->
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+
+<dom-module id="search-box">
+
+    <template>
+    <!-- style include="iron-flex iron-flex-alignment"></style -->
+
+    <style is="custom-style">
+
+      #outer {
+        width: 600px;
+        margin: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 2px;
+        border: 2px solid white;
+        border-radius: 15px;
+      }
+
+      #inner {
+        background:rgba(0,0,0,0.7);
+        padding: 10px;
+        margin: 0 auto;
+        border-radius: 10px;
+      }
+
+      paper-button#check-button {
+        --paper-button: {
+            padding: 2px;
+        }
+      }
+
+      paper-input {
+        --paper-input-container-input: {
+          color: white;
+          font-size: 150%;
+          font-weight: bold;
+        }
+
+        --paper-input-suffix: {
+          font-size: 0.7em;
+        }
+
+      }
+
+      @media (max-width: 639px) {
+          #outer {
+            width: 100%;
+          }
+      }
+
+    </style>
+
+    <div id="outer">
+      <div id="inner">
+        <iron-a11y-keys
+          id="a11y"
+          target="[[target]]"
+          keys="enter"
+          on-keys-pressed="inspect"
+          ></iron-a11y-keys>
+        <paper-input
+          id="siteUrl"
+          value="{{domain}}"
+          label="some.domain.name"
+          required
+          no-label-float
+          auto-validate>
+            <div prefix>Is &nbsp;</div>
+
+            <paper-button
+              id="check-button"
+              suffix
+              raised
+              elevation="5"
+              on-tap="inspect"
+            >powered by Liferay?</paper-icon-button>
+
+        </paper-input>
+
+      </div>
+    </div>
+
+  </template>
+
+    <script>
+        Polymer({
+          is: 'search-box',
+          properties: {
+            prefix: {
+              type: String,
+              value: "http://",
+              readOnly: true
+            },
+            domain: {
+              type: String,
+              value: ''
+            },
+            target: {
+              type: Object,
+              value: function() {
+                return this.$.input;
+              }
+            }
+          },
+          inspect: function() {
+            window.location = '#check/' + this.$.siteUrl.value;
+          }
+        })
+    </script>
+
+</dom-module>

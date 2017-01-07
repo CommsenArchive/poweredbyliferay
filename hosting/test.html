@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <script src="http://cdn.wedeploy.com/api/latest/wedeploy.js"></script>
+
+  <script>
+
+  var data = WeDeploy.data('http://data.built-with-liferay.wedeploy.me');
+
+  data.create('sites', {
+    "id":"some.site",
+    "URL": "some.site"
+  }).then(function(site) {
+    console.log("Saved:" + site);
+  });
+
+
+  data.get('sites')
+  .then(function(site) {
+    console.log("Loaded:" + site);
+  });
+
+  </script>
+
+</head>
+<body >
+
+
+</body>
+</html>

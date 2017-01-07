@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer-bootstrap/polymer-bootstrap.html">
+
+<link rel="import" href="../components/language-flags.html">
+
+<script src="http://cdn.wedeploy.com/api/latest/wedeploy.js"></script>
+
+<dom-module id="site-list">
+
+  <template>
+    <style include="polymer-bootstrap"></style>
+    <style is="custom-style">
+
+
+    </style>
+
+        <template is="dom-if" if="{{sitesJson}}">
+
+            <table class="table table-sm">
+              <tr>
+                <th style="width:35px;"></th>
+                <th>Location</th>
+                <th>Liferay version</th>
+                <th>Languages</th>
+              </tr>
+              <template is="dom-repeat" items="{{sitesJson}}">
+                <tr>
+                  <td>
+                    <a href="#check/{{stripProtocol(item.originalURI)}}">
+                      <iron-icon icon="info-outline"></iron-icon>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{item.originalURI}}" target="_blank">{{item.originalURI}}</a>
+                    <br/>
+                    <small>(actual location: <a href="{{item.redirectURI}}" target="_blank">{{item.redirectURI}})</a></small></td>
+                  <td>{{item.liferayInfo.detectedBuildNumbers}}</td>
+                  <td>
+                      <language-flags
+                        main="{{item.liferayInfo.primaryLanguage}}"
+                        supported="{{item.liferayInfo.supportedLanguages}}"
+                        ></language-flags>
+                  </td>
+                </tr>
+              </template>
+            </table>
+
+        </template>
+
+  </template>
+
+    <script>
+        var data = WeDeploy.data('http://data.' + DOMAIN);
+
+        Polymer({
+          is: 'site-list',
+          properties: {
+              collection: {
+                type: String,
+                value: "sites"
+              },
+              sitesJson: {
+                type: Object,
+                notify: true
+              }
+          },
+          ready: function() {
+            listTemplate = this;
+            console.log(this.localName + '#' + this.id + ' has local DOM initialized');
+            data.where('builtWithLiferay', '=', "true").get('sites').then(function(sites) {
+              console.log("Loaded:" + sites);
+              listTemplate.sitesJson = sites;
+            });
+          },
+          stripProtocol: function(url) {
+            return url.replace(/.*?:\/\//g, "");
+          }
+        })
+    </script>
+
+</dom-module>

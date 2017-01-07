@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="language-flags">
+
+    <template>
+
+      <span id="lang_{{main}}">{{languageFlag(main)}}</span>
+      <paper-tooltip for="lang_{{main}}" offset="1">{{main}}</paper-tooltip>
+
+      <template is="dom-repeat" items="{{supported}}">
+        <span id="lang_{{item}}">{{languageFlag(item)}}</span>
+        <paper-tooltip for="lang_{{item}}" offset="1">{{item}}</paper-tooltip>
+      </template>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'language-flags',
+            properties: {
+                _uniqLangs: {
+                  type: Object,
+                  value: function () {return new Set()},
+                },
+                main: {
+                  type: String,
+                  value: null
+                },
+                supported: {
+                    type: Array,
+                    value: []
+                }
+            },
+            languageFlag: function(code) {
+                console.log(code);
+                if (code == null) return code;
+                if (this._uniqLangs.has(code)) return null;
+                this._uniqLangs.add(code);
+                var langCode = code.split('-')[1];
+                if (langCode == null) return code;
+                langCode = langCode.toUpperCase()
+                var firstLetter = langCode.codePointAt(0) - 0x41 + 0x1F1E6;
+                var secondLetter = langCode.codePointAt(1) - 0x41 + 0x1F1E6;
+                console.log(String.fromCodePoint(firstLetter) + String.fromCodePoint(secondLetter));
+                return String.fromCodePoint(firstLetter) + String.fromCodePoint(secondLetter);
+            },
+        })
+    </script>
+</dom-module>
