@@ -4,12 +4,12 @@
 
     <template>
 
-      <span id="lang_{{main}}">{{languageFlag(main)}}</span>
-      <paper-tooltip for="lang_{{main}}" offset="1">{{main}}</paper-tooltip>
+      <span id="lang_{{languageCode(main)}}">{{languageFlag(main)}}</span>
+      <paper-tooltip for="lang_{{languageCode(main)}}" offset="1">{{main}}</paper-tooltip>
 
       <template is="dom-repeat" items="{{supported}}">
-        <span id="lang_{{item}}">{{languageFlag(item)}}</span>
-        <paper-tooltip for="lang_{{item}}" offset="1">{{item}}</paper-tooltip>
+        <span id="lang_{{languageCode(item)}}">{{languageFlag(item)}}</span>
+        <paper-tooltip for="lang_{{languageCode(item)}}" offset="1">{{item}}</paper-tooltip>
       </template>
 
     </template>
@@ -30,6 +30,10 @@
                     type: Array,
                     value: []
                 }
+            },
+            languageCode: function (code) {
+              if (code == null) return code;
+              return code.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
             },
             languageFlag: function(code) {
                 if (code == null) return code;
