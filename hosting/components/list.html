@@ -19,12 +19,14 @@
             <table class="table table-sm">
               <tr>
                 <th style="width:35px;"></th>
+                <th style="width:35px;"></th>
                 <th>Location</th>
                 <th>Liferay version</th>
                 <th>Languages</th>
               </tr>
               <template is="dom-repeat" items="{{sitesJson}}" initial-count=10>
                 <tr>
+                  <td>#{{plusOne(index)}}</td>
                   <td>
                     <a href="#check/{{stripProtocol(item.originalURI)}}">
                       <iron-icon icon="info-outline"></iron-icon>
@@ -66,9 +68,14 @@
           },
           ready: function() {
             listTemplate = this;
+
             data.where('builtWithLiferay', '=', "true").get('sites').then(function(sites) {
+              console.log("Got " + sites.length + " sites from data service!");
               listTemplate.sitesJson = sites;
             });
+          },
+          plusOne: function(num) {
+            return num + 1;
           },
           stripProtocol: function(url) {
             return url.replace(/.*?:\/\//g, "");
