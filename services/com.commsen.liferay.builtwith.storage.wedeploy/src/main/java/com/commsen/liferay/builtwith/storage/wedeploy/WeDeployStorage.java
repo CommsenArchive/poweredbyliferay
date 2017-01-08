@@ -19,7 +19,7 @@ public class WeDeployStorage implements SiteStorage {
 	private static final String DATA_COLLECTION = "sites";
 	private static final String DATA_URL = "http://data";
 
-	private static WeDeploy dataContainer;
+	private WeDeploy dataContainer;
 	
 	@Activate
 	public void init () {
