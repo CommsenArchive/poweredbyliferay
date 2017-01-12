@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 
 import com.commsen.liferay.builtwith.api.CheckDTO;
 import com.commsen.liferay.builtwith.api.SiteStorage;
@@ -20,11 +21,16 @@ public class WeDeployStorage implements SiteStorage {
 	private static final String DATA_URL = "http://data";
 
 	private WeDeploy dataContainer;
+	private WeDeploy dataContainerAuth;
 	
 	@Activate
 	public void init () {
+		String masterToken = System.getenv("WEDEPLOY_PROJECT_MASTER_TOKEN");
+		System.out.println("masterToken: " + masterToken);
+
 		ApiClient.init();
 		dataContainer = WeDeploy.url(DATA_URL).path(DATA_COLLECTION);
+		dataContainerAuth = WeDeploy.url(DATA_URL).path(DATA_COLLECTION).auth(masterToken);
 		System.out.println("WeDeployStorage activated!!!");
 	}
 	
@@ -35,11 +41,9 @@ public class WeDeployStorage implements SiteStorage {
 
 	@Override
 	public void save(CheckDTO checkDTO) throws SiteStorageException {
-		StorableCheckDTO storableCheckDTO = StorableCheckDTO.fromCheck(checkDTO);
-		Response commandResponse = dataContainer.post(storableCheckDTO);
 
-		System.out.println(commandResponse);
-		
+		StorableCheckDTO storableCheckDTO = StorableCheckDTO.fromCheck(checkDTO);
+		Response commandResponse = dataContainerAuth.post(storableCheckDTO);
 	}
 
 	@Override
@@ -54,8 +58,9 @@ public class WeDeployStorage implements SiteStorage {
 			CheckDTO[] results = gson.fromJson(commandResponse.body(), CheckDTO[].class);
 			if (results.length == 0) return null;
 			return results[0];
+		} else {
+			throw new SiteStorageException(commandResponse.statusMessage());
 		}
-		return null;
 	}
 
 }

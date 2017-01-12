@@ -1,6 +1,15 @@
 [
 	{
 		"path": "/sites",
-		"data": true
+		"data": true,
+		"method": "get"
+	},
+	{
+		"path": "/sites",
+		"data": true,
+		"method": ["POST","PUT","DELETE"],
+		"auth": {
+	    "validator": "$auth != null"
+	  }
 	}
 ]
