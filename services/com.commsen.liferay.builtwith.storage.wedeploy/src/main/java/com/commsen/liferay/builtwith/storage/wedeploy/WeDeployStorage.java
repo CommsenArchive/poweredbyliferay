@@ -25,6 +25,12 @@ public class WeDeployStorage implements SiteStorage {
 	public void init () {
 		ApiClient.init();
 		dataContainer = WeDeploy.url(DATA_URL).path(DATA_COLLECTION);
+		System.out.println("WeDeployStorage activated!!!");
+	}
+	
+	@Deactivate
+	public void deactivate () {
+		System.out.println("WeDeployStorage deactivated!!!");
 	}
 
 	@Override

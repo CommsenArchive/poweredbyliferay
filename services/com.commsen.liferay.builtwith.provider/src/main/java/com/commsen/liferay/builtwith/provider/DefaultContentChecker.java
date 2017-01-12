@@ -8,13 +8,26 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 
 import com.commsen.liferay.builtwith.api.LiferayDTO;
 import com.commsen.liferay.builtwith.api.PortletDTO;
 
 @Component
 public class DefaultContentChecker implements ContentChecker {
+
+	
+	@Activate
+	public void activate () {
+		System.out.println("DefaultContentChecker activated!!!");
+	}
+
+	@Deactivate
+	public void deactivate () {
+		System.out.println("DefaultContentChecker deactivated!!!");
+	}
 
 	public void check(Document document, LiferayDTO liferayInfo) {
 		testForBuildVersion(liferayInfo, document);

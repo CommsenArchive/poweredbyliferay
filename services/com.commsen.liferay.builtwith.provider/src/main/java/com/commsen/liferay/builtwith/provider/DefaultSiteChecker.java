@@ -9,7 +9,9 @@ import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -32,6 +34,17 @@ public class DefaultSiteChecker implements SiteChecker {
 			cardinality=ReferenceCardinality.OPTIONAL
 			)
 	volatile ContentChecker contentChecker;
+	
+	
+	@Activate
+	public void activate () {
+		System.out.println("DefaultSiteChecker activated!!!");
+	}
+	
+	@Deactivate
+	public void deactivate () {
+		System.out.println("DefaultSiteChecker deactivated!!!");
+	}
 
 	public static void main(String[] args) {
 		URI u = URI.create("http://test");

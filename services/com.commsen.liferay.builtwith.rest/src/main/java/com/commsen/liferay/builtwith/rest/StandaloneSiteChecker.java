@@ -8,7 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -36,7 +38,15 @@ public class StandaloneSiteChecker {
 			)
 	private volatile SiteStorage siteStorage;
 	
+	@Activate
+	public void activate () {
+		System.out.println("StandaloneSiteChecker activated!!!");
+	}
 	
+	@Deactivate
+	public void deactivate () {
+		System.out.println("StandaloneSiteChecker deactivated!!!");
+	}
 	@GET
 	@Path("/{domain}")
 	@Produces(MediaType.APPLICATION_JSON)
