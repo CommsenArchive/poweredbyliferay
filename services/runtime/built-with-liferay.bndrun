@@ -23,14 +23,15 @@
 	org.ops4j.pax.logging.DefaultServiceLog.level=INFO
 #	org.osgi.service.http.port=8181
 
-	
+
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=com.commsen.liferay.builtwith.rest)',\
 	osgi.identity;filter:='(osgi.identity=com.eclipsesource.jaxrs.publisher)',\
 	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)',\
 	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-log4j2)',\
 	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-service)'
-	
+
+
 -runbundles: \
 	com.commsen.liferay.builtwith.api;version='[1.0.0,1.0.1)',\
 	com.commsen.liferay.builtwith.provider;version='[1.0.0,1.0.1)',\
@@ -51,8 +52,8 @@
 	org.jodd.json;version='[3.6.7,3.6.8)',\
 	org.jodd.upload;version='[3.6.7,3.6.8)',\
 	org.jsoup;version='[1.10.1,1.10.2)',\
-	org.osgi.service.event;version='[1.3.1,1.3.2)',\
-	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
 	org.ops4j.pax.logging.pax-logging-api;version='[1.9.1,1.9.2)',\
 	org.ops4j.pax.logging.pax-logging-log4j2;version='[1.9.1,1.9.2)',\
-	org.ops4j.pax.logging.pax-logging-service;version='[1.9.1,1.9.2)'
+	org.ops4j.pax.logging.pax-logging-service;version='[1.9.1,1.9.2)',\
+	org.osgi.service.event;version='[1.3.1,1.3.2)',\
+	org.osgi.service.metatype;version='[1.3.0,1.3.1)'
