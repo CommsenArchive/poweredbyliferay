@@ -1,8 +1,0 @@
-{
-  "id": "services",
-  "name": "Java Services",
- 	"type": "wedeploy/java",
-	"hooks": {
-    	"build_off": "mvn clean install -DskipTests"
-  }
-}

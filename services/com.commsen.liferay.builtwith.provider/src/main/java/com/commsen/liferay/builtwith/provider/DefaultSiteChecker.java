@@ -20,7 +20,6 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 import com.commsen.liferay.builtwith.api.CheckDTO;
 import com.commsen.liferay.builtwith.api.LiferayDTO;
 import com.commsen.liferay.builtwith.api.SiteChecker;
-import com.commsen.liferay.builtwith.api.SiteStorage;
 
 @Component
 public class DefaultSiteChecker implements SiteChecker {
@@ -78,7 +77,10 @@ public class DefaultSiteChecker implements SiteChecker {
 		check.date.dateFormat = dateFormat;
 		check.date.date = format.format(new Date());	
 		
-		Connection connection = Jsoup.connect(uri.toString()).followRedirects(true);
+		Connection connection = Jsoup.connect(uri.toString())
+				.followRedirects(true)
+				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+			    .referrer("http://www.google.com");
 		Response response = null;
 		try {
 			response = connection.execute();

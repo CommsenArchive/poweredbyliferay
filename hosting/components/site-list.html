@@ -9,7 +9,7 @@
 
 <link rel="import" href="../components/language-flags.html">
 
-<script src="http://cdn.wedeploy.com/api/latest/wedeploy.js"></script>
+<script src="https://cdn.wedeploy.com/api/2.3.1/wedeploy.js"></script>
 
 <dom-module id="site-list">
 
@@ -102,7 +102,7 @@
   </template>
 
     <script>
-        var data = WeDeploy.data('http://data.' + DOMAIN);
+        var data = WeDeploy.data('https://data-poweredbyliferay.wedeploy.io');
 
         Polymer({
           is: 'site-list',

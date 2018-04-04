@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns:em="EM">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.commsen.liferay</groupId>
@@ -7,29 +8,159 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<em:executable />
+		<em:contractors>
+			com.commsen.em.contractors:em.contractors.jaxrs.publisher:5.3.1
+			com.commsen.wedeploy:com.commsen.wedeploy.client.cloud:1.1.0-SNAPSHOT			
+			com.commsen.wedeploy:com.commsen.wedeploy.client.data:1.1.0-SNAPSHOT			
+			com.commsen.wedeploy:com.commsen.wedeploy.data.mapper.gson:1.1.0-SNAPSHOT
+			com.commsen.wedeploy:com.commsen.wedeploy.transport.rest.okhttp:1.1.0-SNAPSHOT
+			com.commsen.em.contractors:em.contractors.pax-logging:1.10.1
+			com.commsen.em.contractors:em.contractors.felix.http.jetty:3.2.0
+		</em:contractors>
+ 	</properties>
+
 	<groupId>com.commsen.liferay.builtwith</groupId>
 	<artifactId>com.commsen.liferay.builtwith.rest</artifactId>
 
+
+<!-- 	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				Basic framework libraries
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.framework</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				libraries needed to run REST services
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.rest</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				Basic logging libraries
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.logging</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				Basic configuration libraries
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.config</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				libraries providing schedulers
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.scheduler</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				libraries needed to run shell
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.shell</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				util libraries
+				<groupId>com.commsen.em</groupId>
+				<artifactId>em.bom.utils</artifactId>
+				<version>${em.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				wedeploy client
+				<groupId>com.commsen.wedeploy</groupId>
+				<artifactId>wedeploy-client-bom</artifactId>
+				<version>1.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement> -->
+
 	<dependencies>
-		<dependency>
+		<dependency> 
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.service.component.annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>biz.aQute.bnd</groupId>
-			<artifactId>annotation</artifactId>
+			<groupId>com.commsen.em</groupId>
+			<artifactId>em.annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.commsen.liferay.builtwith</groupId>
 			<artifactId>com.commsen.liferay.builtwith.api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.commsen.liferay.builtwith</groupId>
+			<artifactId>com.commsen.liferay.builtwith.provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.commsen.liferay.builtwith</groupId>
+			<artifactId>com.commsen.liferay.builtwith.storage.wedeploy</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+
+<!-- 		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.enroute.base.api</artifactId>
+			<version>2.0.0</version>
+		</dependency> -->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>production</id>
+			<properties>
+				<wedeploy.project>poweredbyliferay</wedeploy.project>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<activation><activeByDefault>true</activeByDefault></activation>
+			<properties>
+				<wedeploy.project>javaapitest</wedeploy.project>
+				<em:contract>
+					local.console,
+					webconsole
+				</em:contract>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.commsen.wedeploy</groupId>
+				<artifactId>wedeploy-maven-plugin</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<configuration>
+					<includes>
+						<include>${project.build.directory}/${project.artifactId}.jar</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

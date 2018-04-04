@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns:em="EM">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,57 +12,27 @@
 	<groupId>com.commsen.liferay.builtwith</groupId>
 	<artifactId>com.commsen.liferay.builtwith.storage.wedeploy</artifactId>
 
+	<properties>
+		<em:module />
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.commsen.liferay.builtwith</groupId>
 			<artifactId>com.commsen.liferay.builtwith.api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.service.component.annotations</artifactId>
+			<groupId>com.commsen.em</groupId>
+			<artifactId>em.annotations</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>com.github.wedeploy.api-java</groupId>
-			<artifactId>api</artifactId>
-			<version>v1.0.0-alpha.10</version>
+			<groupId>com.commsen.wedeploy</groupId>
+			<artifactId>com.commsen.wedeploy.client</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.github.wedeploy.api-java</groupId>
-			<artifactId>api-client</artifactId>
-			<version>v1.0.0-alpha.10</version>
-		</dependency>
-
-
-		<!-- These are needed to fix the wrong versions from wedeploy's API -->
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-http</artifactId>
-			<version>3.6.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-json</artifactId>
-			<version>3.6.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
-		</dependency>
-
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
 
 </project>

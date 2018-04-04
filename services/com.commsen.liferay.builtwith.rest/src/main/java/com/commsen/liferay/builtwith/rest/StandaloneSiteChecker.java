@@ -8,6 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+//import org.eclipse.jetty.util.Jetty;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -16,16 +17,16 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
+import com.commsen.em.annotations.RequiresJaxrsServer;
 import com.commsen.liferay.builtwith.api.CheckDTO;
 import com.commsen.liferay.builtwith.api.SiteChecker;
 import com.commsen.liferay.builtwith.api.SiteStorage;
 import com.google.gson.Gson;
 
-//import aQute.bnd.annotation.headers.RequireCapability;
 
 @Path("/check")
 @Component (immediate = true, service = Object.class)
-//@RequireCapability(ns="osgi.contract", filter="(&(osgi.contract=JavaJAXRS)(version=2))")
+@RequiresJaxrsServer
 public class StandaloneSiteChecker {
 
 	@Reference
@@ -38,6 +39,8 @@ public class StandaloneSiteChecker {
 			)
 	private volatile SiteStorage siteStorage;
 	
+//	Jetty jetty;
+	
 	@Activate
 	public void activate () {
 		System.out.println("StandaloneSiteChecker activated!!!");
@@ -47,6 +50,7 @@ public class StandaloneSiteChecker {
 	public void deactivate () {
 		System.out.println("StandaloneSiteChecker deactivated!!!");
 	}
+	
 	@GET
 	@Path("/{domain}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +67,4 @@ public class StandaloneSiteChecker {
 		return new Gson().toJson(check);
 		
 	}
-	
-
 }
